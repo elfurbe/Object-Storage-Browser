@@ -1,15 +1,13 @@
-/*jslint devel: true, browser: true, unparam: true, vars: true, white: true, passfail: false, nomen: true, maxerr: 50, indent: 4, todo: true */
-
 // This is a global variable of sha1.js and needs to be set for proper b64 encoded string.
 b64pad = "="; // needed for "strict RFC compliance"
 
-var FranticS3Browser = function () {
+var OSB = function () {
     "use strict";
-    var bucket;
+    var bucket = window.configvars.bucket;
+    var aws_access_key_id = window.configvars.aws_access_key_id;
+    var aws_secret_access_key = window.configvars.aws_secret_access_key;
+    var aws_signature = sign(aws_secret_access_key, aws_policy_document_b64);
     var uploader_container_id;
-    var aws_access_key_id;
-    var aws_secret_access_key;
-    var aws_signature;
     var protocolurl;
     var $login_form;
     var $login_error;
@@ -30,15 +28,15 @@ var FranticS3Browser = function () {
     };
 
     var set_aws_access_key_id = function (aaki) {
-        aws_access_key_id = aaki;
+        aws_access_key_id = window.configvars.aws_access_key_id;
     };
 
     var set_aws_secret_access_key = function (asak) {
-        aws_secret_access_key = asak;
+        aws_secret_access_key = window.configvars.aws_secret_access_key;
     };
 
     var set_bucket = function (bn) {
-        bucket = bn;
+        bucket = window.configvars.bucket;
         // Certificate check will fail for bucket names with a dot. Use http for them, https for other buckets.
         if (/\./.exec(bn)) {
             protocolurl = 'http://';
@@ -149,7 +147,7 @@ var FranticS3Browser = function () {
                             $login_error.hide();
                             $("#logout").show();
                             $bucketlist.show();
-                            set_location_hash({'bucket': bucket, 'aws_access_key_id': aws_access_key_id, 'aws_secret_access_key': aws_secret_access_key});
+                            //set_location_hash({'bucket': bucket, 'aws_access_key_id': aws_access_key_id, 'aws_secret_access_key': aws_secret_access_key});
                             $div_upload_form.show();
                             $("#div_login_form").addClass('login');
                             var contents = jQuery(data).find('Contents');
@@ -186,11 +184,11 @@ var FranticS3Browser = function () {
     };
     
     var login_form_beforeSubmit = function (formData, jqForm, options) {
-        set_bucket(jqForm.find('input[name=bucket]').val());
+        //set_bucket(jqForm.find('input[name=bucket]').val());
         make_aws_policy_document();
-        set_aws_access_key_id(jqForm.find('input[name=aws_access_key_id]').val());
-        set_aws_secret_access_key(jqForm.find('input[name=aws_secret_access_key]').val());
-        set_aws_signature(sign(aws_secret_access_key, aws_policy_document_b64));
+        //set_aws_access_key_id(jqForm.find('input[name=aws_access_key_id]').val());
+        //set_aws_secret_access_key(jqForm.find('input[name=aws_secret_access_key]').val());
+        //set_aws_signature(sign(aws_secret_access_key, aws_policy_document_b64));
         init_bucketlist();
         init_fileupload_field();
         return false;
@@ -253,11 +251,11 @@ var FranticS3Browser = function () {
     };
 
     return {
-        set_aws_access_key_id: function (args) {
-            set_aws_access_key_id(args);
-        },
+        //set_aws_access_key_id: function (args) {
+        //    set_aws_access_key_id(args);
+        //},
         init: function (args) {
-            set_endpoint(args.s3_endpoint);
+            //set_endpoint(args.s3_endpoint);
             init_login_form(args.login_form, args.login_error);
             init_logout_form(args.logout_form, args.div_logout_form);
             init_from_hash(args.hash);

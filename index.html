@@ -1,13 +1,13 @@
 <html>
 	<head>
-		<title>Frantic S3 Browser</title>
+		<title>Object Storage Browser</title>
 		<script type="text/javascript" src="assets/js/libs/jquery.min.js"></script>
 		<script type="text/javascript" src="assets/js/libs/jquery.ui.widget.js"></script>
 		<script type="text/javascript" src="assets/js/libs/jquery.fileupload.js"></script>
 		<script type="text/javascript" src="assets/js/libs/jquery.form.js"></script>
 		<script type="text/javascript" src="assets/js/libs/sha1.js"></script>
-		<script type="text/javascript" src="assets/js/frantics3browser.js"></script>
-		<link rel="stylesheet" href="assets/css/frantics3browser.css" type="text/css" />
+		<script type="text/javascript" src="assets/js/osb.js"></script>
+		<link rel="stylesheet" href="assets/css/osb.css" type="text/css" />
 		<link rel="stylesheet" href="assets/css/branding.css" type="text/css" />
 	</head>
 <body>
@@ -15,7 +15,7 @@
 <div id="div_login_form">
 	<div id="login_error">Login failed. Please check the information and try again.</div>
 	<div class="theming">
-		<h1>S3 Browser</h1>
+		<h1>OSB</h1>
 		<h2>Files</h2>
 		<a id="logout" href="/">Logout</a>
 	</div>
@@ -38,10 +38,15 @@
 	</div>
 </div>
 <script>
-var frantics3browser = new FranticS3Browser;
+var configvars = {
+    'aws_access_key_id': 'YOUR ACCESS KEY HERE',
+    'aws_secret_access_key': 'YOUR SECRET KEY HERE',
+    'bucket': 'YOUR BUCKET ID HERE',
+    's3endpoint': 'YOUR S3 ENDPOINT HERE'
+};
+var osb = new OSB;
 jQuery(document).ready(function(){
-        // See http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region for a listing of proper s3_endpoints.
-	frantics3browser.init({'hash': location.hash, 'login_form': '#login_form', 'div_logout_form': '#div_logout_form', 'div_upload_form': '#upload', 'fileupload_field': '#fileupload', 'bucketlist': '#bucketlist', 'login_error': '#login_error', 's3_endpoint': 's3-eu-west-1.amazonaws.com'});
+	osb.init({'hash': location.hash, 'login_form': '#login_form', 'div_logout_form': '#div_logout_form', 'div_upload_form': '#upload', 'fileupload_field': '#fileupload', 'bucketlist': '#bucketlist', 'login_error': '#login_error', 's3_endpoint': window.configvars.s3endpoint});
 });
 </script>
 
